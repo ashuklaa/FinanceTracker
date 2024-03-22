@@ -27,3 +27,8 @@ Git Structure: Trunk Based - https://www.atlassian.com/continuous-delivery/conti
 <br>
 Main trunk integration via: Pull Requests<br>
 Programming Style: OOP<br>
+
+
+Desired Features: <br>
+be able to add multiple balance carrying accounts to one savings goal<br>
+

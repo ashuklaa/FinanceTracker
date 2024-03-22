@@ -3,30 +3,73 @@
 
 #include <string>
 #include <vector>
-#include <fstream>
+
+/**
+ *\file csvparser.h 
+ * \brief CSV parse tool to parse statements into database
+ *
+ * Allows loading of data found within csv files using robust structural analysis
+ * */
 
 namespace ftk {
 namespace backend {
 namespace parsing {
 
+/**
+ * \class CsvParser
+ * \brief Class for parsing CSV files.
+ *
+ * This class provides methods to load a CSV file, parse it,
+ * and retrieve the data. The parser assumes that the first
+ * row of the CSV contains the headers.
+ */
+
 class CsvParser{
 	public:
-		CsvParser(const std::string& file_path);
+	/**
+	 * \brief Constructor for parse tool
+	 * \param delimiter - character used in csv 
+	*/
+	explicit CsvParser(char delimiter = ',');
 
-		~CsvParser();
+	/**
+	 * \brief loads and parses csv file
+	 * \param filename - path to csv file
+	 * \return True if file successfully parsed, else false
+	*/
+	bool load(const std::string& filename);
 
-		CsvParser(const CsvParser&) = delete;
-		CsvParser operator=(const CsvParser&) = delete;
+	/**
+	 * \brief Retrieves CSV headers
+	 * \return Vector of strings with headers in contents
+	*/
+	std::vector<std::string> getHeaders() const;
 
-		bool Parse();
+	/**
+	 * \brief Retrieves data from specific column
+	 * \param colName - Name of column to retrieve data from
+	 * \return A vector of strings containing column data
+	*/
 
-		const std::vector<std::vector<std::string>>& GetData() const;
+	std::vector<std::string> getColData(const std::string& colName);
+
+	/**
+	 * \brief Retrieves data from specific row
+	 * \param rowIndex - Index of a row to retrieve data from.
+	 * \return A vector of strings containing row data
+	*/
+	std::vector<std::string> getRowData(size_t rowIndex) const;
 	private:
-		std::vector<std::string> ParseLine(const std::string& line);
+		char m_delimiter;				///< Delimiter character from csv
+		std::vector<std::string> m_headers;		///< Headers froM CSV
+		std::vector<std::vector<std::string>> m_data;	///< Data from CSV file
+	/**
+	* \brief Parses single line of csv
+	* \param line The line to parse
+	* \return a vector of strings representing parsed data from line
+	*/
 
-		std::string file_path_;
-		
-		std::vector<std::vector<std::string>> data_;
+	std::vector<std::string> parseLine(const std::string& line);
 
 
 };
