@@ -98,6 +98,7 @@ Makefile
 *.sqlite
 
 # OS generated files
+.cache/
 .DS_Store
 .DS_Store?
 ._*
