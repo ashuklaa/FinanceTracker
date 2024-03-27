@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "../extern/googletest/googletest/include/gtest/gtest.h"
 #include "../src/backend/login/login.h"
 
 class LoginManagerTest : public ::testing:Test{
@@ -18,5 +18,6 @@ protected:
 };
 
 TEST_F(LoginManagerTest, RegisterUser){
+	
 
 }
