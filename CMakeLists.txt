@@ -23,6 +23,7 @@ find_package(
 # Include frontend and backend in final compile
 add_subdirectory(src/frontend)
 add_subdirectory(extern/googletest)
-include_directories($PROJECT_SOURCE_DIR}/extern/googletest/googletest/include)
+include_directories(extern/googletest/googletest/include)
 # add_subdirectory(src/backend) add_subdirectory(tests)
-# add_subdirectory(extern/SQLiteCpp)
+add_subdirectory(extern/SQLiteCpp)
+include_directories(extern/SQLiteCpp/include)
