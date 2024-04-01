@@ -16,7 +16,8 @@ class LoginManager{
 		LoginManager(const std::string& dbPath);
 		~LoginManager();
 
-		bool authenticate(const std::string& username, const std::string& password);
+		bool authenticateExistingUser(const std::string& username, const std::string& password);
+		bool registerNewUser(const std::string& username, const std::string& passwordHash);
 
 };
 

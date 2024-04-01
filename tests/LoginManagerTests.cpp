@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../extern/cryptopp/scrypt.h"
-#include "../extern/cryptopp/secblock.h"
+// #include "../extern/cryptopp/scrypt.h"
+// #include "../extern/cryptopp/secblock.h"
 // #include "../extern/cryptopp/osrng.h"
 // #include "../extern/cryptopp/hex.h"
 // #include "../extern/cryptopp/cryptlib.h"
@@ -12,7 +12,7 @@ protected:
 	ftk::backend::login::LoginManager* loginManager;
 	std::string testDbPath = "test.db";
 	
-	CryptoPP::Scrypt scrypt;
+	//CryptoPP::Scrypt scrypt;
 
 	void SetUp() override{
 		loginManager = new ftk::backend::login::LoginManager(testDbPath);
@@ -25,17 +25,41 @@ protected:
 	}
 };
 
-TEST_F(LoginManagerTest, RegisterUser){
-	const  char userNameInput = "admin";
-	std::string pwPlainInput = "testpassword";
-	std::string saltInput = "locked";
-	
-	CryptoPP::byte userName = (CryptoPP::byte) userNameInput;
-	CryptoPP::byte pwPlain;
-	CryptoPP::byte salt;
+TEST_F(LoginManagerTest, RegisterUserSuccessfully){
+	bool registeredSuccessfully = loginManager->registerNewUser("temp", "pwHash");
 
-	CryptoPP::SecByteBlock pwHash(64);
-	
-	scrypt.DeriveKey(pwHash, pwHash.size(), pwPlain, pwPlain.length(), salt, salt.length(), 1024, 8, 16);
+	EXPECT_TRUE(registeredSuccessfully);
+}
+
+TEST_F(LoginManagerTest, RegisterUserEmptyPassword){
+	bool registeredSuccessfully = loginManager->registerNewUser("bent", "");
+
+	EXPECT_FALSE(registeredSuccessfully);
+}
+
+TEST_F(LoginManagerTest, RegisterDuplicateUsername){
+	bool registeredSuccessfully = loginManager->registerNewUser("temp", "pwHash");
+
+	EXPECT_FALSE(registeredSuccessfully);
+}
+
+TEST_F(LoginManagerTest, RegisterNewUserSuccessfully){
+	bool registeredSuccessfully = loginManager->registerNewUser("bent", "temppwHash");
+
+	EXPECT_TRUE(registeredSuccessfully);
+}
+
+TEST_F(LoginManagerTest, LoginExistingUserSuccessfully){
+	bool authenticatedUser = loginManager->authenticateExistingUser("temp", "pwHash");
+
+	EXPECT_TRUE(authenticatedUser);
 
 }
+
+TEST_F(LoginManagerTest, LoginExistingUserWrongPassword){
+	bool authenticatedUser = loginManager->authenticateExistingUser("temp", "wrongHash");
+
+	EXPECT_FALSE(authenticatedUser);
+}
+
+

@@ -1,4 +1,4 @@
-add_library(ft_backend_lib backend_lib.cpp)
+add_library(ft_backend_lib login/login.cpp)
 
 target_include_directories(ft_backend_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
