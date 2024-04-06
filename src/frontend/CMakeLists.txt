@@ -8,4 +8,5 @@ set_target_properties(
              AUTOUIC ON
              AUTORCC ON)
 
+include_directories(${PROJECT_SOURCE_DIR}/src/backend/login)
 target_link_libraries(${PROJECT_NAME} Qt6::Widgets)

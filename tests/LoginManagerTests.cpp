@@ -16,34 +16,40 @@ protected:
 
 	void SetUp() override{
 		loginManager = new ftk::backend::login::LoginManager(testDbPath);
-
 	}
 
 	void TearDown() override{
 		delete loginManager;
-		// remove(testDbPath.c_str());
 	}
 };
 
 TEST_F(LoginManagerTest, RegisterUserSuccessfully){
+	std::filesystem::remove(testDbPath);
+	loginManager = new ftk::backend::login::LoginManager(testDbPath);
 	bool registeredSuccessfully = loginManager->registerNewUser("temp", "pwHash");
 
 	EXPECT_TRUE(registeredSuccessfully);
 }
 
-TEST_F(LoginManagerTest, RegisterUserEmptyPassword){
+TEST_F(LoginManagerTest, FailRegisteringUserWithEmptyUsername){
+	bool registeredSuccessfully = loginManager->registerNewUser("", "pwHash");
+
+	EXPECT_FALSE(registeredSuccessfully);
+}
+
+TEST_F(LoginManagerTest, FailRegisteringUserWithEmptyPassword){
 	bool registeredSuccessfully = loginManager->registerNewUser("bent", "");
 
 	EXPECT_FALSE(registeredSuccessfully);
 }
 
-TEST_F(LoginManagerTest, RegisterDuplicateUsername){
+TEST_F(LoginManagerTest, FailRegisterDuplicateUsername){
 	bool registeredSuccessfully = loginManager->registerNewUser("temp", "pwHash");
 
 	EXPECT_FALSE(registeredSuccessfully);
 }
 
-TEST_F(LoginManagerTest, RegisterNewUserSuccessfully){
+TEST_F(LoginManagerTest, RegisterNewUsernameSuccessfully){
 	bool registeredSuccessfully = loginManager->registerNewUser("bent", "temppwHash");
 
 	EXPECT_TRUE(registeredSuccessfully);
@@ -56,7 +62,7 @@ TEST_F(LoginManagerTest, LoginExistingUserSuccessfully){
 
 }
 
-TEST_F(LoginManagerTest, LoginExistingUserWrongPassword){
+TEST_F(LoginManagerTest, FailLoginWrongPassword){
 	bool authenticatedUser = loginManager->authenticateExistingUser("temp", "wrongHash");
 
 	EXPECT_FALSE(authenticatedUser);

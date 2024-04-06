@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "login.h"
 #include <QMainWindow>
+#include <qtmetamacros.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,5 +21,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    ftk::backend::login::LoginManager* loginManager;
+private slots:
+    void onLoginClicked();
+    void onSignupClicked();
 };
 #endif // MAINWINDOW_H
